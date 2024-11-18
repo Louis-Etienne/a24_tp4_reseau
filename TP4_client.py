@@ -70,8 +70,10 @@ class Client:
         print("HEADER OF REGISTRER : ", reply["header"])
 
         if reply["header"] ==  gloutils.Headers.OK:
+            print("OK")
             self._username = _username # utilisateur authentifie
         elif reply["header"] == gloutils.Headers.ERROR:
+            print("ERROR")
             payload : gloutils.ErrorPayload = reply['payload']
             print(payload["error_message"]) # affiche erreur
 
