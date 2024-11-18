@@ -170,6 +170,7 @@ class Server:
         folderpaths_name = self._get_list_users()
         username = payload["username"].lower()
         
+        print(f"username : {username} + folderpaths : {folderpaths_name}")
         if not username in folderpaths_name:
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR,
