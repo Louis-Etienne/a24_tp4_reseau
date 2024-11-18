@@ -72,9 +72,11 @@ class Server:
     def cleanup(self) -> None:
         """Ferme toutes les connexions résiduelles."""
         for client_soc in self._client_socs:
-            client_soc.close()
+            self._remove_client(client_soc)
+            
         self._server_socket.close()
         self._client_socs = []
+        self._logged_users = []
 
     def _accept_client(self) -> None:
         """Accepte un nouveau client."""
@@ -87,6 +89,7 @@ class Server:
         self._logout(client_soc)
         if client_soc in self._client_socs:
             self._client_socs.remove(client_soc)
+            print(f"Remove client {client_soc}")
         client_soc.close()
 
     def _create_account(self, client_soc: socket.socket,
@@ -99,6 +102,9 @@ class Server:
         associe le socket au nouvel l'utilisateur et retourne un succès,
         sinon retourne un message d'erreur.
         """
+        
+        print(f"Creating account : {client_soc}")
+        
         output_message : gloutils.GloMessage = gloutils.GloMessage(
             header=gloutils.Headers.OK
         )
@@ -152,6 +158,9 @@ class Server:
         Si les identifiants sont valides, associe le socket à l'utilisateur et
         retourne un succès, sinon retourne un message d'erreur.
         """
+        
+        print(f"Logging into account : {client_soc}")
+        
         output_message = gloutils.GloMessage(
             header=gloutils.Headers.OK
         )
