@@ -16,7 +16,7 @@ import sys
 import re
 import glob
 import datetime
-
+import uuid
 import glosocket
 import gloutils
 
@@ -339,8 +339,20 @@ class Server:
                     
         return output_message
     
-    def _get_email_name(self, destinataire:str, date:str) -> str:
-        return f"{destinataire}_{date}"
+    def _get_email_name(self, client_soc:socket.socket) -> str:
+        username = self._logged_users[client_soc]
+        user_path = os.path.join(gloutils.SERVER_DATA_DIR, username)
+        json_list = glob.glob(os.path.join(user_path, "*.json"))
+        
+        valid_uuid = False
+        while(not valid_uuid):
+            path = str(uuid.uuid4()) + ".json"
+            path = os.path.join(user_path, path)
+            
+            if path not in json_list:
+                valid_uuid = True
+                
+        return path
     
     def _sort_email_list(self, email_list : list[gloutils.EmailContentPayload]):
         email_list.sort(key=lambda date: datetime.datetime.strptime(date["date"], "%a, %d %b %Y %H:%M:%S %z"))
