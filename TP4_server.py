@@ -326,33 +326,21 @@ class Server:
                 )
                 
                 lost_path = os.path.join(gloutils.SERVER_DATA_DIR, gloutils.SERVER_LOST_DIR)
-                lost_file = os.path.join(lost_path, self._get_email_name(nom_destinataire, payload["date"])+".json")
+                lost_file = os.path.join(lost_path, self._get_email_name())
                 
                 with open(lost_file, 'w') as file:
                     json.dump(payload, file, ensure_ascii=False, indent=4)
             else:
                 email_path = os.path.join(gloutils.SERVER_DATA_DIR, nom_destinataire)
-                email_file = os.path.join(email_path, self._get_email_name(nom_destinataire, payload["date"])+".json")
+                email_file = os.path.join(email_path, self._get_email_name())
                 
                 with open(email_file, 'w') as file:
                     json.dump(payload, file, ensure_ascii=False, indent=4)
                     
         return output_message
     
-    def _get_email_name(self, client_soc:socket.socket) -> str:
-        username = self._logged_users[client_soc]
-        user_path = os.path.join(gloutils.SERVER_DATA_DIR, username)
-        json_list = glob.glob(os.path.join(user_path, "*.json"))
-        
-        valid_uuid = False
-        while(not valid_uuid):
-            path = str(uuid.uuid4()) + ".json"
-            path = os.path.join(user_path, path)
-            
-            if path not in json_list:
-                valid_uuid = True
-                
-        return path
+    def _get_email_name(self, client_soc:socket.socket) -> str: 
+        return str(uuid.uuid4()) + ".json"
     
     def _sort_email_list(self, email_list : list[gloutils.EmailContentPayload]):
         email_list.sort(key=lambda date: datetime.datetime.strptime(date["date"], "%a, %d %b %Y %H:%M:%S %z"))
