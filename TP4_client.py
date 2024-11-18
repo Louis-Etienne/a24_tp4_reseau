@@ -156,7 +156,7 @@ class Client:
                 good_choix = False
                 while(not good_choix): # loop pour avoir un digit valide
                     choix = input(f"Entrez votre choix [1-{amount_emails}]")
-                    if re.search(r"^[0-9]+$"):
+                    if re.search(r"^[0-9]{1,10}$"):
                         choix_int = int(choix)
                         if choix_int <= amount_emails and choix_int >= 1:
                             good_choix = True
@@ -247,7 +247,7 @@ class Client:
         print(gloutils.CLIENT_USE_CHOICE)
         user_input = input("Entrez votre choix [1-4]: ")
         
-        if not re.search(r"1|2|3|4", user_input): # choix non valide
+        if not re.search(r"^[1234]$", user_input): # choix non valide
             print("Choix invalide")
             return False # restart le loop
 
@@ -272,7 +272,7 @@ class Client:
         print(gloutils.CLIENT_AUTH_CHOICE)
         user_input = input("Entrez votre choix [1-3]: ")
         
-        if not re.search(r"^1|2|3$", user_input): # choix non valide
+        if not re.search(r"^[123]$", user_input): # choix non valide
             print("Choix invalide")
             return False # restart le loop
         
