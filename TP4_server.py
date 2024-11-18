@@ -80,6 +80,7 @@ class Server:
         """Accepte un nouveau client."""
         new_soc, _ = self._server_socket.accept()
         self._client_socs.append(new_soc)
+        print(f"Accepte client {new_soc}")
 
     def _remove_client(self, client_soc: socket.socket) -> None:
         """Retire le client des structures de données et ferme sa connexion."""
