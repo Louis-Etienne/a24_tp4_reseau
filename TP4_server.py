@@ -339,7 +339,7 @@ class Server:
         return f"{destinataire}_{date}"
     
     def _sort_email_list(self, email_list : list[gloutils.EmailContentPayload]):
-        email_list.sort(key=lambda date: datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z"))
+        email_list.sort(key=lambda date: datetime.datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z"))
         return email_list
 
     def _get_sorted_email_list(self, client_soc : socket.socket) -> list[gloutils.EmailContentPayload]:
