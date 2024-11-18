@@ -239,6 +239,7 @@ class Client:
 
         Retourne vrai si doit quitter l'application
         """
+        print()
         print(gloutils.CLIENT_USE_CHOICE)
         user_input = input("Entrez votre choix [1-4]: ")
         
@@ -264,6 +265,7 @@ class Client:
 
         Retourne vrai si doit quitter l'application
         """
+        print()
         print(gloutils.CLIENT_AUTH_CHOICE)
         user_input = input("Entrez votre choix [1-3]: ")
         
