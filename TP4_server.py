@@ -110,6 +110,7 @@ class Server:
         )
         
         users_name_lower = [x.lower() for x in self._logged_users.values()]
+        username = payload["username"].lower()
         
         if not re.search(r"^[a-zA-Z0-9_.-]+$", payload["username"]):
             output_message = gloutils.GloMessage(
@@ -119,7 +120,7 @@ class Server:
                 )
             )
         
-        elif payload["username"].lower() in users_name_lower:
+        elif username in users_name_lower:
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
@@ -137,7 +138,7 @@ class Server:
         
         # If no error, deal with the successful account creation
         elif output_message["header"] == gloutils.Headers.OK:
-            new_folder_path = os.path.join(gloutils.SERVER_DATA_DIR, payload["username"])
+            new_folder_path = os.path.join(gloutils.SERVER_DATA_DIR, username)
             password_file_path = os.path.join(new_folder_path, gloutils.PASSWORD_FILENAME)
             hashed_password = hashlib.sha3_512(payload["password"].encode('utf-8'))
             os.makedirs(new_folder_path, exist_ok=True)
@@ -168,8 +169,9 @@ class Server:
         
         folderpaths = glob.glob(gloutils.SERVER_DATA_DIR)
         folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
+        username = payload["username"].lower()
         
-        if not payload["username"] in folderpaths_name:
+        if not username in folderpaths_name:
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR,
                 payload=gloutils.ErrorPayload(
@@ -177,7 +179,7 @@ class Server:
                 )
             )
         else:
-            userfile_path = os.path.join(gloutils.SERVER_DATA_DIR, payload["username"].lower())
+            userfile_path = os.path.join(gloutils.SERVER_DATA_DIR, username)
             password_path = os.path.join(userfile_path, gloutils.PASSWORD_FILENAME)
             with open(password_path, "r") as file:
                 expected_hash = file.readline()
@@ -187,7 +189,7 @@ class Server:
                 
                 if hmac.compare_digest(hasher.hexdigest(), expected_hash):
                     # updates the dict with the logged in user
-                    self._logged_users[client_soc] = payload["username"].lower()
+                    self._logged_users[client_soc] = username
                 else:
                     output_message = gloutils.GloMessage(
                         header=gloutils.Headers.ERROR,
