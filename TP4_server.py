@@ -345,7 +345,7 @@ class Server:
         email_list:list[gloutils.EmailContentPayload] = self._sort_email_list(email_list)
         return email_list
     
-    def _get_list_users()->list[str]:
+    def _get_list_users(self)->list[str]:
         folderpaths = glob.glob(os.path.join(gloutils.SERVER_DATA_DIR, "*"))
         folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
         return folderpaths_name
