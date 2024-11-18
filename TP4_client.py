@@ -64,7 +64,7 @@ class Client:
         self._try_send_mesg(self._client_soc, message_data)
         
         
-        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply_data = self._try_recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] ==  gloutils.Headers.OK:
@@ -94,7 +94,7 @@ class Client:
         message_data = json.dumps(message)
         self._try_send_mesg(self._client_soc, message_data)
         
-        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply_data = self._try_recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] ==  gloutils.Headers.OK:
@@ -140,7 +140,7 @@ class Client:
         message_data = json.dumps(message)
         self._try_send_mesg(self._client_soc, message_data)
 
-        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply_data = self._try_recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] == gloutils.Headers.OK:
@@ -171,7 +171,7 @@ class Client:
                 message_data = json.dumps(message)
                 self._try_send_mesg(self._client_soc, message_data)
 
-                reply_data = glosocket.recv_mesg(self._client_soc)
+                reply_data =self._try_recv_mesg(self._client_soc)
                 reply  : gloutils.GloMessage = json.loads(reply_data)
 
                 if reply["header"] == gloutils.Headers.OK: # received the body of the email
@@ -219,7 +219,7 @@ class Client:
         message_data = json.dumps(message)
         self._try_send_mesg(self._client_soc, message_data)
 
-        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply_data = self._try_recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] ==  gloutils.Headers.OK:
@@ -243,7 +243,7 @@ class Client:
         message_data = json.dumps(message)
         self._try_send_mesg(self._client_soc, message_data)
 
-        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply_data = self._try_recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] == gloutils.Headers.OK:
@@ -270,6 +270,12 @@ class Client:
     def _try_send_mesg(self, client_soc: socket.socket, message_data:str)-> None:
         try:
             glosocket.snd_mesg(client_soc, message_data)
+        except glosocket.GLOSocketError:
+            sys.exit("Lost connection with the server")
+            
+    def _try_recv_mesg(self, client_soc:socket.socket)->str:
+        try:
+            return glosocket.recv_mesg(client_soc)
         except glosocket.GLOSocketError:
             sys.exit("Lost connection with the server")
 
