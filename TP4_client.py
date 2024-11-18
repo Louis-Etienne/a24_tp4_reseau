@@ -209,7 +209,7 @@ class Client:
         message = gloutils.GloMessage(
             header=gloutils.Headers.EMAIL_SENDING,
             payload=gloutils.EmailContentPayload(
-                sender=f"{self._username}{gloutils.SERVER_DOMAIN}",
+                sender=f"{self._username}@{gloutils.SERVER_DOMAIN}",
                 destination=destinataire,
                 subject=sujet,
                 content=contenu,

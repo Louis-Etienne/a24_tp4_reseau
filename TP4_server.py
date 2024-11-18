@@ -114,7 +114,7 @@ class Server:
         error_message = "La création à échouée : \n"
         
         if not re.search(r"^[a-zA-Z0-9_.-]+$", payload["username"]):
-            error_message += "- Le nom d'utilisateur est invalide, il contient un caractere invalide, veuillez utiliser seulement des caractères alpahnumériques ou des ., - ou _ ."
+            error_message += "- Le nom d'utilisateur est invalide, il contient un caractere invalide, veuillez utiliser seulement des caractères alpahnumériques ou des ., - ou _ . \n"
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
@@ -123,16 +123,16 @@ class Server:
             )
         
         if username in users_name_lower:
-            error_message += "- Le nom d'utilisateur est déjà pris. Veuillez entrer un autre nom d'utilisateur."
+            error_message += "- Le nom d'utilisateur est déjà pris. Veuillez entrer un autre nom d'utilisateur. \n"
             output_message = gloutils.GloMessage(
-                header=gloutils.Headers.ERROR, 
+                header=gloutils.Headers.ERROR,
                 payload=gloutils.ErrorPayload(
                     error_message=error_message
                 )
             )
         
         if not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
-            error_message += "- Le mot de passe n'est pas assez sécurisé. Veuillez entrer un mot de passe d'au moins 10 caractères, avec au moins un chiffre, une majuscule et une minuscule."
+            error_message += "- Le mot de passe n'est pas assez sécurisé. Veuillez entrer un mot de passe d'au moins 10 caractères, avec au moins un chiffre, une majuscule et une minuscule. \n"
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
