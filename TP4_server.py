@@ -109,7 +109,7 @@ class Server:
             header=gloutils.Headers.OK
         )
         
-        users_name_lower = [x.lower() for x in self._logged_users.values()]
+        users_name_lower = self._get_list_users()
         username = payload["username"].lower()
         
         if not re.search(r"^[a-zA-Z0-9_.-]+$", payload["username"]):
@@ -166,10 +166,8 @@ class Server:
         output_message = gloutils.GloMessage(
             header=gloutils.Headers.OK
         )
-        
-        folderpaths = glob.glob(os.path.join(gloutils.SERVER_DATA_DIR, "*"))
-        print(f"folder paths : {folderpaths}")
-        folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
+    
+        folderpaths_name = self._get_list_users()
         username = payload["username"].lower()
         
         if not username in folderpaths_name:
@@ -346,6 +344,11 @@ class Server:
         # sorting the email list by date
         email_list:list[gloutils.EmailContentPayload] = self._sort_email_list(email_list)
         return email_list
+    
+    def _get_list_users()->list[str]:
+        folderpaths = glob.glob(os.path.join(gloutils.SERVER_DATA_DIR, "*"))
+        folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
+        return folderpaths_name
     
     def _try_send_message(self, destination: socket.socket, message:str) -> None:
         try:
