@@ -171,7 +171,7 @@ class Server:
         username = payload["username"].lower()
         
         print(f"username : {username} + folderpaths : {folderpaths_name}")
-        if not username in folderpaths_name and not username == "lost":
+        if not username in folderpaths_name or username == "lost":
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR,
                 payload=gloutils.ErrorPayload(
