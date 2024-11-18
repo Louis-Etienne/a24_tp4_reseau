@@ -43,7 +43,7 @@ class Server:
 
         # Creation du socket server
         self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self._server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
             self._server_socket.bind(("127.0.0.1", gloutils.APP_PORT))
             self._server_socket.listen()
