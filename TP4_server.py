@@ -349,7 +349,7 @@ class Server:
         email_list : list[gloutils.EmailContentPayload] = []
         for email_file in json_list:
             with open(email_file, 'r') as file:
-                email: gloutils.EmailContentPayload = json.loads(file)
+                email: gloutils.EmailContentPayload = json.load(file)
                 email_list.append(email)
         
         # sorting the email list by date
