@@ -374,11 +374,12 @@ class Server:
             if send_message["header"] == gloutils.Headers.ERROR:
                 message_data = json.dumps(send_message)
                 self._try_send_message(client_soc, message_data)
-                return
                 
-            send_message = self._login(client_soc, client_message["payload"])
-            message_data = json.dumps(send_message)
-            self._try_send_message(client_soc, message_data)
+                print("CREATE ACCOUNT ERROR")
+            else:
+                send_message = self._login(client_soc, client_message["payload"])
+                message_data = json.dumps(send_message)
+                self._try_send_message(client_soc, message_data)
             
         elif client_message["header"] == gloutils.Headers.AUTH_LOGIN:
             send_message = self._login(client_soc, client_message["payload"])
