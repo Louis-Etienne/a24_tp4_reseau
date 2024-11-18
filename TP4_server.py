@@ -339,7 +339,7 @@ class Server:
                     
         return output_message
     
-    def _get_email_name(self, client_soc:socket.socket) -> str: 
+    def _get_email_name(self) -> str: 
         return str(uuid.uuid4()) + ".json"
     
     def _sort_email_list(self, email_list : list[gloutils.EmailContentPayload]):
