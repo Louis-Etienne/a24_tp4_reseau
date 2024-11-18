@@ -303,8 +303,10 @@ class Server:
             )
         else:
             nom_destinataire = payload["destination"][:-len(gloutils.SERVER_DOMAIN)].lower() # remove the SERVER_DOMAIN ending
+            print(nom_destinataire)
             folderpaths = glob.glob(gloutils.SERVER_DATA_DIR)
             folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
+            
             if not nom_destinataire in folderpaths_name:
                 output_message = gloutils.GloMessage(
                     header=gloutils.Headers.ERROR,
