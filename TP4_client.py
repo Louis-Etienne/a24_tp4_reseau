@@ -66,14 +66,10 @@ class Client:
         
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
-        
-        print("HEADER OF REGISTRER : ", reply["header"])
 
         if reply["header"] ==  gloutils.Headers.OK:
-            print("OK")
             self._username = _username # utilisateur authentifie
         elif reply["header"] == gloutils.Headers.ERROR:
-            print("ERROR")
             payload : gloutils.ErrorPayload = reply['payload']
             print(payload["error_message"]) # affiche erreur
 
@@ -101,7 +97,6 @@ class Client:
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
-        print(f"login reply : {reply}")
         if reply["header"] ==  gloutils.Headers.OK:
             self._username = _username # utilisateur authentifie
         elif reply["header"] == gloutils.Headers.ERROR:
@@ -146,7 +141,7 @@ class Client:
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] == gloutils.Headers.OK:
-            list_email : list[str] = reply["payload"]
+            list_email : list[str] = reply["payload"]["email_list"]
             amount_emails = len(list_email)
 
             for email in list_email:
@@ -199,7 +194,37 @@ class Client:
 
         Transmet ces informations avec l'entête `EMAIL_SENDING`.
         """
+        destinataire = input("Entrez l'adresse du destinataire: ")
+        sujet = input("Entrez le sujet: ")
+        print("Entrez le contenu du courriel, terminez la saisie avec un '.' seul sur une ligne:")
+        contenu = ""
+        buffer = ""
+        while buffer != ".\n":
+            contenu += buffer
+            buffer = input() + "\n"
+            
+        message = gloutils.GloMessage(
+            header=gloutils.Headers.EMAIL_SENDING,
+            payload=gloutils.EmailContentPayload(
+                sender=f"{self._username}{gloutils.SERVER_DOMAIN}",
+                destination=destinataire,
+                sujet=sujet,
+                content=contenu,
+            )
+        )
+        message_data = json.dumps(message)
+        glosocket.snd_mesg(self._client_soc, message_data)
 
+        reply_data = glosocket.recv_mesg(self._client_soc)
+        reply  : gloutils.GloMessage = json.loads(reply_data)
+
+        if reply["header"] ==  gloutils.Headers.OK:
+            print()
+            print("Le message a été envoyé avec succès!")
+            
+        elif reply["header"] == gloutils.Headers.ERROR:
+            payload : gloutils.ErrorPayload = reply['payload']
+            print(payload["error_message"]) # affiche erreur
 
     def _check_stats(self) -> None:
         """

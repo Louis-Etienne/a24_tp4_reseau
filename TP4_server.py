@@ -225,7 +225,7 @@ class Server:
                 subject=email["subject"],
                 date=email["date"]
             ))
-        
+
         output_message = gloutils.GloMessage(
             header=gloutils.Headers.OK,
             payload=gloutils.EmailListPayload(
