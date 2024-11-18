@@ -153,7 +153,7 @@ class Client:
                 good_choix = False
                 while(not good_choix): # loop pour avoir un digit valide
                     choix = input(f"Entrez votre choix [1-{amount_emails}]")
-                    if re.search(r"^[0-9]{1,10}$"):
+                    if re.search(r"^[0-9]{1,10}$", choix):
                         choix_int = int(choix)
                         if choix_int <= amount_emails and choix_int >= 1:
                             good_choix = True
