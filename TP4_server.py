@@ -126,7 +126,7 @@ class Server:
                 )
             )
         
-        if not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$"):
+        if not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
