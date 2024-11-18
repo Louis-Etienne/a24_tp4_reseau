@@ -398,11 +398,6 @@ class Server:
             
         elif client_message["header"] == gloutils.Headers.AUTH_LOGOUT:
             self._logout(client_soc)
-            # send_message = gloutils.GloMessage(
-            #     header=gloutils.Headers.OK
-            # )
-            # message_data = json.dumps(send_message)
-            # self._try_send_message(client_soc, message_data)
             
         elif client_message["header"] == gloutils.Headers.BYE:
             self._remove_client(client_soc)

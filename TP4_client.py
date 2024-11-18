@@ -61,7 +61,7 @@ class Client:
             )
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
         
         
         reply_data = glosocket.recv_mesg(self._client_soc)
@@ -92,7 +92,7 @@ class Client:
             )
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
         
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
@@ -116,7 +116,7 @@ class Client:
             header=gloutils.Headers.BYE,
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
         
         self._client_soc.close()
 
@@ -138,7 +138,7 @@ class Client:
             payload=None,
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
 
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
@@ -169,7 +169,7 @@ class Client:
                     ),
                 )
                 message_data = json.dumps(message)
-                glosocket.snd_mesg(self._client_soc, message_data)
+                self._try_send_mesg(self._client_soc, message_data)
 
                 reply_data = glosocket.recv_mesg(self._client_soc)
                 reply  : gloutils.GloMessage = json.loads(reply_data)
@@ -217,7 +217,7 @@ class Client:
             )
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
 
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
@@ -241,7 +241,7 @@ class Client:
             payload=None,
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
 
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
@@ -264,8 +264,14 @@ class Client:
             payload=None,
         )
         message_data = json.dumps(message)
-        glosocket.snd_mesg(self._client_soc, message_data)
+        self._try_send_mesg(self._client_soc, message_data)
         self._username = ""
+
+    def _try_send_mesg(client_soc: socket.socket, message_data:str)-> None:
+        try:
+            glosocket.snd_mesg(client_soc, message_data)
+        except glosocket.GLOSocketError:
+            sys.exit("Lost connection with the server")
 
     def _menu_principal(self) -> bool:
         """
