@@ -210,7 +210,7 @@ class Client:
             payload=gloutils.EmailContentPayload(
                 sender=f"{self._username}{gloutils.SERVER_DOMAIN}",
                 destination=destinataire,
-                sujet=sujet,
+                subject=sujet,
                 content=contenu,
                 date=gloutils.get_current_utc_time(),
             )
