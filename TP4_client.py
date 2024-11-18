@@ -67,7 +67,7 @@ class Client:
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
         
-        print("HEADER OF REGISTRER : " + reply["header"])
+        print("HEADER OF REGISTRER : ", reply["header"])
 
         if reply["header"] ==  gloutils.Headers.OK:
             self._username = _username # utilisateur authentifie
