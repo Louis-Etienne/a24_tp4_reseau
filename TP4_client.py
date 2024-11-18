@@ -98,6 +98,8 @@ class Client:
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] ==  gloutils.Headers.OK:
+            print("Connexion avec succès!")
+            print(f"Bonjour {_username}")
             self._username = _username # utilisateur authentifie
         elif reply["header"] == gloutils.Headers.ERROR:
             payload : gloutils.ErrorPayload = reply['payload']
@@ -210,6 +212,7 @@ class Client:
                 destination=destinataire,
                 sujet=sujet,
                 content=contenu,
+                date=gloutils.get_current_utc_time(),
             )
         )
         message_data = json.dumps(message)
