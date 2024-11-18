@@ -294,7 +294,14 @@ class Server:
             header=gloutils.Headers.OK,
         )
         
-        if not re.search(rf"{gloutils.SERVER_DOMAIN}$", payload["destination"]):
+        if not re.search(r"^[a-zA-Z0-9_\.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+$", payload["destination"]):
+            output_message = gloutils.GloMessage(
+                header=gloutils.Headers.ERROR,
+                payload=gloutils.ErrorPayload(
+                    error_message="Adresse courriel invalide pour le destinataire"
+                )
+            )
+        elif not re.search(rf"{gloutils.SERVER_DOMAIN}$", payload["destination"]):
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR,
                 payload=gloutils.ErrorPayload(
@@ -302,8 +309,8 @@ class Server:
                 )
             )
         else:
-            nom_destinataire = payload["destination"][:-len(gloutils.SERVER_DOMAIN)].lower() # remove the SERVER_DOMAIN ending
-            print(nom_destinataire)
+            nom_destinataire = payload["destination"][:-len(gloutils.SERVER_DOMAIN)-1].lower() # remove the SERVER_DOMAIN ending
+            print("Envoi de courriel vers : ", nom_destinataire)
             folderpaths = glob.glob(gloutils.SERVER_DATA_DIR)
             folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
             
