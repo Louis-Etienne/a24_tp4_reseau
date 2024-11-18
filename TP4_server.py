@@ -322,13 +322,13 @@ class Server:
                 )
                 
                 lost_path = os.path.join(gloutils.SERVER_DATA_DIR, gloutils.SERVER_LOST_DIR)
-                lost_file = os.path.join(lost_path, self._get_email_name(nom_destinataire, payload["date"]))
+                lost_file = os.path.join(lost_path, self._get_email_name(nom_destinataire, payload["date"])+".json")
                 
                 with open(lost_file, 'w') as file:
                     json.dump(payload, file, ensure_ascii=False, indent=4)
             else:
                 email_path = os.path.join(gloutils.SERVER_DATA_DIR, nom_destinataire)
-                email_file = os.path.join(email_path, self._get_email_name(nom_destinataire, payload["date"]))
+                email_file = os.path.join(email_path, self._get_email_name(nom_destinataire, payload["date"])+".json")
                 
                 with open(email_file, 'w') as file:
                     json.dump(payload, file, ensure_ascii=False, indent=4)
