@@ -109,6 +109,8 @@ class Server:
             header=gloutils.Headers.OK
         )
         
+        users_name_lower = [x.lower() for x in self._logged_users.values()]
+        
         if not re.search(r"^[a-zA-Z0-9_.-]+$", payload["username"]):
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
@@ -117,8 +119,7 @@ class Server:
                 )
             )
         
-        users_name_lower = [x.lower() for x in self._logged_users.values()]
-        if payload["username"].lower() in users_name_lower:
+        elif payload["username"].lower() in users_name_lower:
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
@@ -126,7 +127,7 @@ class Server:
                 )
             )
         
-        if not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
+        elif not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
@@ -135,7 +136,7 @@ class Server:
             )
         
         # If no error, deal with the successful account creation
-        if output_message["header"] == gloutils.Headers.OK:
+        elif output_message["header"] == gloutils.Headers.OK:
             new_folder_path = os.path.join(gloutils.SERVER_DATA_DIR, payload["username"])
             password_file_path = os.path.join(new_folder_path, gloutils.PASSWORD_FILENAME)
             hashed_password = hashlib.sha3_512(payload["password"].encode('utf-8'))
