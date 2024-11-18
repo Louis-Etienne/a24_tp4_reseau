@@ -317,13 +317,13 @@ class Server:
                 lost_file = os.path.join(lost_path, self._get_email_name(nom_destinataire, payload["date"]))
                 
                 with open(lost_file, 'w') as file:
-                    json.dumps(payload, file, ensure_ascii=False, indent=4)
+                    json.dump(payload, file, ensure_ascii=False, indent=4)
             else:
                 email_path = os.path.join(gloutils.SERVER_DATA_DIR, nom_destinataire)
                 email_file = os.path.join(email_path, self._get_email_name(nom_destinataire, payload["date"]))
                 
                 with open(email_file, 'w') as file:
-                    json.dumps(payload, file, ensure_ascii=False, indent=4)
+                    json.dump(payload, file, ensure_ascii=False, indent=4)
                     
         return output_message
     
