@@ -94,7 +94,6 @@ class Client:
         message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
         
-        
         reply_data = glosocket.recv_mesg(self._client_soc)
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
@@ -112,10 +111,6 @@ class Client:
         """
         message = gloutils.GloMessage(
             header=gloutils.Headers.BYE,
-            payload=gloutils.AuthPayload(
-                username=self._username,
-                password=""
-            )
         )
         message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
