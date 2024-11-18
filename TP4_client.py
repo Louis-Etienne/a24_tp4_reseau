@@ -267,7 +267,7 @@ class Client:
         self._try_send_mesg(self._client_soc, message_data)
         self._username = ""
 
-    def _try_send_mesg(client_soc: socket.socket, message_data:str)-> None:
+    def _try_send_mesg(self, client_soc: socket.socket, message_data:str)-> None:
         try:
             glosocket.snd_mesg(client_soc, message_data)
         except glosocket.GLOSocketError:
