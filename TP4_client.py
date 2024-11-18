@@ -272,7 +272,7 @@ class Client:
         print(gloutils.CLIENT_AUTH_CHOICE)
         user_input = input("Entrez votre choix [1-3]: ")
         
-        if not re.search(r"1|2|3", user_input): # choix non valide
+        if not re.search(r"^1|2|3$", user_input): # choix non valide
             print("Choix invalide")
             return False # restart le loop
         
@@ -296,9 +296,8 @@ class Client:
             if not self._username:
                 # Authentication menu
                 should_quit = self._main_menu()
-                pass
             else:
-                # Main menu
+                # Choice menu
                 should_quit = self._menu_principal()
 
 
