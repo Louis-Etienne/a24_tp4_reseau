@@ -1,6 +1,6 @@
 """\
 GLO-2000 Travail pratique 4 - Client
-Noms et numéros étudiants:
+Noms et numéros étudiants: Louis-Etienne Messier (537 131 157), Jose Andres Chia Ortiz (536 896 836), Fayssal Laghcha (536 856 578)
 -
 -
 -
@@ -98,6 +98,7 @@ class Client:
         reply  : gloutils.GloMessage = json.loads(reply_data)
 
         if reply["header"] ==  gloutils.Headers.OK:
+            print()
             print("Connexion avec succès!")
             print(f"Bonjour {_username}")
             self._username = _username # utilisateur authentifie

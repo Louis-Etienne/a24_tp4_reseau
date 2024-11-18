@@ -111,33 +111,37 @@ class Server:
         
         users_name_lower = self._get_list_users()
         username = payload["username"].lower()
+        error_message = "La création à échouée : \n"
         
         if not re.search(r"^[a-zA-Z0-9_.-]+$", payload["username"]):
+            error_message += "- Le nom d'utilisateur est invalide, il contient un caractere invalide, veuillez utiliser seulement des caractères alpahnumériques ou des ., - ou _ ."
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
-                    error_message="Le nom d'utilisateur est invalide, il contient un caractere invalide, veuillez utiliser seulement des caractères alpahnumériques ou des ., - ou _ ."
+                    error_message=error_message
                 )
             )
         
-        elif username in users_name_lower:
+        if username in users_name_lower:
+            error_message += "- Le nom d'utilisateur est déjà pris. Veuillez entrer un autre nom d'utilisateur."
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
-                    error_message="Le nom d'utilisateur est déjà pris. Veuillez entrer un autre nom d'utilisateur."
+                    error_message=error_message
                 )
             )
         
-        elif not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
+        if not re.search(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$",payload["password"] ):
+            error_message += "- Le mot de passe n'est pas assez sécurisé. Veuillez entrer un mot de passe d'au moins 10 caractères, avec au moins un chiffre, une majuscule et une minuscule."
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR, 
                 payload=gloutils.ErrorPayload(
-                    error_message="Le mot de passe n'est pas assez sécurisé. Veuillez entrer un mot de passe d'au moins 10 caractères, avec au moins un chiffre, une majuscule et une minuscule."
+                    error_message=error_message
                 )
             )
         
         # If no error, deal with the successful account creation
-        elif output_message["header"] == gloutils.Headers.OK:
+        if output_message["header"] == gloutils.Headers.OK:
             new_folder_path = os.path.join(gloutils.SERVER_DATA_DIR, username)
             password_file_path = os.path.join(new_folder_path, gloutils.PASSWORD_FILENAME)
             hashed_password = hashlib.sha3_512(payload["password"].encode('utf-8'))
