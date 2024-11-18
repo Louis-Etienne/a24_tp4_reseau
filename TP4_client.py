@@ -295,11 +295,11 @@ class Client:
         while not should_quit:
             if not self._username:
                 # Authentication menu
-                should_quit = self._menu_principal()
+                should_quit = self._main_menu()
                 pass
             else:
                 # Main menu
-                should_quit = self._main_menu()
+                should_quit = self._menu_principal()
 
 
 def _main() -> int:
