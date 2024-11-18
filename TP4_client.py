@@ -60,7 +60,7 @@ class Client:
                 password=_password
             )
         )
-        message_data = json.dump(message)
+        message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
         
         
@@ -91,7 +91,7 @@ class Client:
                 password=_password
             )
         )
-        message_data = json.dump(message)
+        message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
         
         
@@ -117,7 +117,7 @@ class Client:
                 password=""
             )
         )
-        message_data = json.dump(message)
+        message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
         
         self._client_soc.close()
@@ -139,7 +139,7 @@ class Client:
             header=gloutils.Headers.INBOX_READING_REQUEST,
             payload=None,
         )
-        message_data = json.dump(message)
+        message_data = json.dumps(message)
         glosocket.snd_mesg(self._client_soc, message_data)
 
         reply_data = glosocket.recv_mesg(self._client_soc)
@@ -170,7 +170,7 @@ class Client:
                         choice=choix_int
                     ),
                 )
-                message_data = json.dump(message)
+                message_data = json.dumps(message)
                 glosocket.snd_mesg(self._client_soc, message_data)
 
                 reply_data = glosocket.recv_mesg(self._client_soc)
