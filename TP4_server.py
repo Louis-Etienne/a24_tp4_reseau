@@ -167,7 +167,7 @@ class Server:
             header=gloutils.Headers.OK
         )
         
-        folderpaths = glob.glob(gloutils.SERVER_DATA_DIR)
+        folderpaths = glob.glob(gloutils.SERVER_DATA_DIR, "*")
         folderpaths_name = [os.path.basename(x).lower() for x in folderpaths]
         username = payload["username"].lower()
         
