@@ -82,7 +82,7 @@ class Server:
         """Accepte un nouveau client."""
         new_soc, _ = self._server_socket.accept()
         self._client_socs.append(new_soc)
-        print(f"Accepte client {new_soc}")
+        print(f"Accept client {new_soc}")
 
     def _remove_client(self, client_soc: socket.socket) -> None:
         """Retire le client des structures de données et ferme sa connexion."""
@@ -170,7 +170,6 @@ class Server:
         folderpaths_name = self._get_list_users()
         username = payload["username"].lower()
         
-        print(f"username : {username} + folderpaths : {folderpaths_name}")
         if not username in folderpaths_name or username == "lost":
             output_message = gloutils.GloMessage(
                 header=gloutils.Headers.ERROR,
@@ -332,7 +331,8 @@ class Server:
         return f"{destinataire}_{date}"
     
     def _sort_email_list(self, email_list : list[gloutils.EmailContentPayload]):
-        return email_list.sort(key=lambda date: datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z"))
+        email_list.sort(key=lambda date: datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z"))
+        return email_list
 
     def _get_sorted_email_list(self, client_soc : socket.socket) -> list[gloutils.EmailContentPayload]:
         username = self._logged_users[client_soc]
@@ -374,8 +374,6 @@ class Server:
             if send_message["header"] == gloutils.Headers.ERROR:
                 message_data = json.dumps(send_message)
                 self._try_send_message(client_soc, message_data)
-                
-                print("CREATE ACCOUNT ERROR")
             else:
                 send_message = self._login(client_soc, client_message["payload"])
                 message_data = json.dumps(send_message)
